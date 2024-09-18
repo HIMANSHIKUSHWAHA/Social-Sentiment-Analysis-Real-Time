@@ -1,45 +1,64 @@
 # Social Sentiment Dash Application
-Live-streaming sentiment analysis application created with Python and Dash, hosted at [**SocialSentiment.net**](http://socialsentiment.net/).
 
-## Repo Contents: 
-- `dash_mess.py` - This is currently the main front-end application code. Contains the dash application layouts, logic for graphs, interfaces with the database...etc. Name is descriptive of the overall state of code :) ...this code is setup to run on a flask instance. If you want to clone this and run it locally, you will be using the `dev_server.py`
-- `dev_server.py` - If you wish to run this application locally, on the dev server, run via this instead.
-- `twitter_stream.py` - This should run in the background of your application. This is what streams tweets from Twitter, storing them into the sqlite database, which is what the `dash_mess.py` file interfaces with. 
-- `config.py` - Meant for many configurations, but right now it just contains stop words. Words we don't intend to ever count in the "trending"
-- `cache.py` -  For caching purposes in effort to get things to run faster. 
-- `db-truncate.py` - A script to truncate the infinitely-growing sqlite database. You will get about 3.5 millionish tweets per day, depending on how fast you can process. You can keep these, but, as the database grows, search times will dramatically suffer. 
+Welcome to the Social Sentiment Dash Application, a real-time sentiment analysis tool developed with Python and Dash. This application is designed to stream and analyze tweets, providing insights into public sentiment through a dynamic web dashboard.
 
-## Quick start
+## Repository Contents
 
-- Clone repo
-- install `requirements.txt` using `pip install -r requirements.txt`
-- Fill in your Twitter App credentials to `twitter_stream.py`. Go to [**apps.twitter.com**](https://apps.twitter.com/) to set that up if you need to.
-- Run `twitter_stream.py` to build database
-- If you're using this locally, you can run the application with the `dev_server.py` script. If you want to deploy this to a webserver, see this [**deploying Dash application tutorial**](https://pythonprogramming.net/deploy-vps-dash-data-visualization/)
-- You might need the latest version of sqlite. 
-```
-sudo add-apt-repository ppa:jonathonf/backports
-sudo apt-get update && sudo apt-get install sqlite3
-```
-- Consider running the `db-truncate.py` from time to time (or via a cronjob), to keep the database reasonably sized. In its current state, the database really doesn't need to store more than 2-3 days of data most likely. 
+- **`dash_mess.py`**: Main script for the Dash application, handling front-end layouts, graph logic, and database interaction.
+- **`dev_server.py`**: Script to run the application on a local development server.
+- **`twitter_stream.py`**: Background script that streams tweets from Twitter and stores them in a SQLite database.
+- **`config.py`**: Contains configuration settings including stop words to exclude from trend analysis.
+- **`cache.py`**: Implements caching mechanisms to enhance performance and speed up data retrieval.
+- **`db-truncate.py`**: Script to manage the SQLite database size by truncating old data.
 
-### Tips for Running on Server
-- You can use Gunicorn to run the server
-```
-gunicorn dash_mess:server -b 0.0.0.0:80 -w 4
-```
+## Quick Start
 
+### Set Up Environment
 
-## Todo
+1. **Clone the Repository:**
+   Clone the repository to your local machine using the following command:
+   ```bash
+   git clone [URL-to-your-repo]
+   ```
 
-Want to help contribute???
+2. **Install Required Packages:**
+   Install the necessary Python packages using:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-- Code is ugly. Low hanging fruit is just making the code not so ugly. Up to this point, I've just been in "make it work" mode.
-- App is ugly. I am not a designer. This app is prettttttyyyyyy gross. Think you have a better design? Halp. 
-- Click-able related terms and trending terms would be nice. I tried, but failed at this. It'd be cool to see a related term, and be able to just click on it, and this becomes the new searched term, for example.
-- The interactive search is cool, but also does a search in the database per-character. It would be nice if it didn't search per key-press. Not sure I want a search button, I like the streamlined interactivity, but maybe wait 0.2 seconds or something without any new keypresses to perform the search? Something like that might help with speeds. I really do not know the best option here, I just know this isn't idea.
-- Other manipulations or ideas for interactivity? Feel free to show them in a PR.
+### Configure Application
 
-## Credits
+3. **Set Twitter API Credentials:**
+   - Update `twitter_stream.py` with your Twitter credentials.
+   - Obtain credentials from [apps.twitter.com](https://apps.twitter.com/) if needed.
 
-The speed of the application, especially with a database with 10's of millions of records is thanks entirely to [**Daniel Kukiela**](https://github.com/daniel-kukiela/) who helped me to convert from regular sqlite to using fts, helping with the queries, new database structure, caching, and more.
+### Run the Application
+
+4. **Start the Twitter Stream:**
+   Begin streaming tweets by running:
+   ```bash
+   python twitter_stream.py
+   ```
+
+5. **Launch the Development Server:**
+   Start the local development server with:
+   ```bash
+   python dev_server.py
+   ```
+
+## Deployment on Server
+
+- For production deployment, you can use Gunicorn:
+  ```bash
+  gunicorn dash_mess:server -b 0.0.0.0:80 -w 4
+  ```
+
+## Contributing
+
+I welcome contributions! Here are some ways you can help:
+- **Refactor Code**: Improve the code quality for better maintainability.
+- **Enhance Design**: Improve the UI/UX of the application.
+- **Optimize Performance**: Enhance search and data retrieval functionalities.
+- **Feature Development**: Implement new features such as clickable related terms.
+
